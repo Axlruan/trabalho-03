@@ -1,0 +1,86 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        char[,] tabuleiro = new char[3, 3];
+        int contador = 0;
+        bool jogoAtivo = true;
+
+        InicializarTabuleiro(tabuleiro);
+
+        while (jogoAtivo)
+        {
+            ExibirTabuleiro(tabuleiro);
+            int jogador = contador % 2 == 0 ? 1 : 2;
+            char simbolo = jogador == 1 ? 'X' : 'O';
+
+            Console.WriteLine($"\nJogador {jogador} ({simbolo}), é sua vez.");
+            Console.Write("Digite a linha (0 a 2): ");
+            int linha = int.Parse(Console.ReadLine());
+            Console.Write("Digite a coluna (0 a 2): ");
+            int coluna = int.Parse(Console.ReadLine());
+
+            if (linha < 0 || linha > 2 || coluna < 0 || coluna > 2 || tabuleiro[linha, coluna] != '-')
+            {
+                Console.WriteLine("Jogada inválida. Tente novamente.");
+                continue;
+            }
+
+            tabuleiro[linha, coluna] = simbolo;
+            contador++;
+
+            if (VerificarVitoria(tabuleiro, simbolo))
+            {
+                ExibirTabuleiro(tabuleiro);
+                Console.WriteLine($"\nParabéns! Jogador {jogador} ({simbolo}) venceu!");
+                jogoAtivo = false;
+            }
+            else if (contador == 9)
+            {
+                ExibirTabuleiro(tabuleiro);
+                Console.WriteLine("\nEmpate! O tabuleiro está cheio.");
+                jogoAtivo = false;
+            }
+        }
+    }
+
+    static void InicializarTabuleiro(char[,] tabuleiro)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                tabuleiro[i, j] = '-';
+            }
+        }
+    }
+
+    static void ExibirTabuleiro(char[,] tabuleiro)
+    {
+        Console.WriteLine("\nTabuleiro:");
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                Console.Write($"{tabuleiro[i, j]} ");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static bool VerificarVitoria(char[,] tabuleiro, char simbolo)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (tabuleiro[i, 0] == simbolo && tabuleiro[i, 1] == simbolo && tabuleiro[i, 2] == simbolo) return true;
+            if (tabuleiro[0, i] == simbolo && tabuleiro[1, i] == simbolo && tabuleiro[2, i] == simbolo) return true;
+        }
+
+        if (tabuleiro[0, 0] == simbolo && tabuleiro[1, 1] == simbolo && tabuleiro[2, 2] == simbolo) return true;
+        if (tabuleiro[0, 2] == simbolo && tabuleiro[1, 1] == simbolo && tabuleiro[2, 0] == simbolo) return true;
+
+        return false;
+    }
+}
