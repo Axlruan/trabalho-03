@@ -1,0 +1,48 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string[] alunos = new string[10];
+        double[,] notas = new double[10, 3];
+        double[] medias = new double[10];
+
+        Console.WriteLine("Digite o nome e as notas dos 10 alunos:");
+        for (int i = 0; i < 10; i++)
+        {
+            Console.Write($"\nDigite o nome do aluno {i + 1}: ");
+            alunos[i] = Console.ReadLine();
+
+            double somaNotas = 0;
+            for (int j = 0; j < 3; j++)
+            {
+                Console.Write($"Digite a nota {j + 1} do aluno {alunos[i]}: ");
+                notas[i, j] = double.Parse(Console.ReadLine());
+                somaNotas += notas[i, j];
+            }
+
+            medias[i] = somaNotas / 3;
+        }
+
+        Console.WriteLine("\n--- Relatório Final ---");
+        for (int i = 0; i < 10; i++)
+        {
+            if (medias[i] >= 7.0)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+
+            Console.WriteLine($"\nNome: {alunos[i]}");
+            Console.WriteLine($"Notas: {notas[i, 0]}, {notas[i, 1]}, {notas[i, 2]}");
+            Console.WriteLine($"Média: {medias[i]:F2}");
+            Console.WriteLine(medias[i] >= 7.0 ? "Status: Aprovado" : "Status: Reprovado");
+        }
+
+        Console.ResetColor();
+    }
+}
