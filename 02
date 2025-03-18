@@ -1,0 +1,39 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string[] nomes = new string[10];
+        decimal[] precos = new decimal[10];
+
+        Console.WriteLine("Cadastro de 10 produtos:");
+        for (int i = 0; i < 10; i++)
+        {
+            Console.Write($"Digite o nome do produto {i + 1}: ");
+            nomes[i] = Console.ReadLine();
+
+            Console.Write($"Digite o preço do produto {i + 1}: ");
+            precos[i] = decimal.Parse(Console.ReadLine());
+        }
+
+        Console.Write("\nDigite um valor para filtrar os produtos pelo preço: ");
+        decimal valorPesquisa = decimal.Parse(Console.ReadLine());
+
+        Console.WriteLine($"\nProdutos com preço até {valorPesquisa:C}:");
+        bool encontrou = false;
+        for (int i = 0; i < 10; i++)
+        {
+            if (precos[i] <= valorPesquisa)
+            {
+                Console.WriteLine($"- {nomes[i]}: {precos[i]:C}");
+                encontrou = true;
+            }
+        }
+
+        if (!encontrou)
+        {
+            Console.WriteLine("Nenhum produto encontrado com preço até o valor especificado.");
+        }
+    }
+}
